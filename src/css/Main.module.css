@@ -1,0 +1,32 @@
+.slider-item {
+    position: relative;
+}
+.slick-prev, .slick-next {
+    background-color: rgba(0, 0, 0, 0.5); /* 배경색을 반투명하게 */
+    border-radius: 50%; /* 원형 버튼 */
+    padding: 10px; /* 버튼 크기 */
+    z-index: 10; /* 슬라이드 위에 표시되도록 */
+    display: block;
+}
+
+.slick-prev {
+    left: 10px; /* 왼쪽 화살표 위치 */
+}
+
+.slick-next {
+    right: 10px; /* 오른쪽 화살표 위치 */
+}
+
+.slick-prev:before, .slick-next:before {
+    color: red; /* 화살표 색상 */
+    font-size: 20px; /* 화살표 크기 */
+}
+
+.slick-slider {
+    position: relative; /* 화살표가 위치할 공간 확보 */
+}
+
+.slick-slide img {
+    width: 90%;
+    margin: 0 auto;
+}

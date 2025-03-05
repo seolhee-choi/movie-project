@@ -1,0 +1,32 @@
+/* Header.css */
+.header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: #333;
+}
+
+.logo img {
+    height: 40px; /* 로고 크기 조절 */
+}
+
+.nav .navList {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.nav .navList li {
+    font-size: 16px;
+    width: 81px;
+}
+
+.nav .navList a {
+    color: white;
+    text-decoration: none;
+}
+
+.nav .navList a:hover {
+    text-decoration: underline;
+}
