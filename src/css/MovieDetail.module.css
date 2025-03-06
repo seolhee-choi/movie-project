@@ -1,0 +1,31 @@
+.detail {
+    display: flex;
+    align-items: flex-start;
+    gap : 20px;
+    color: white;
+}
+
+.video-preview, .img-preview {
+    width: 677px; /* 원하는 크기로 조절 */
+    height: auto;
+    border-radius: 8px; /* 모서리를 둥글게 */
+    object-fit: cover;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3); /* 그림자 효과 */
+    background-color: black;
+}
+
+h3 {
+    margin: 0;
+}
+
+.detail-text {
+    display: flex;
+    flex-direction: column; /* 텍스트는 세로로 정렬 */
+    justify-content: flex-start;
+    gap: 10px; /* 텍스트들 간격 설정 */
+    margin-top: 100px;
+}
+
+.detail-text p {
+    margin: 0; /* 각 p 태그에 기본 margin 없애기 */
+}

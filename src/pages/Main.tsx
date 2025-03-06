@@ -1,16 +1,19 @@
 import { FC, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import '../../src/css/Main.module.css'
+import styles from '../css/Main.module.css'
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import {cleanTitle} from "../utils/format";
+import UpcomingMovie from "./UpcomingMovie";
 
 //api 응답 정의
 interface Movie {
     movieCd : string;
     movieNm : string;
     openDt : string;
+    DOCID : string;
 }
 interface Post {
     Query: string;
@@ -45,14 +48,22 @@ const Main : FC = () => {
         infinite: true,
         speed: 500,
         slidesToShow: 5, // 한 번에 보이는 개수
-        slidesToScroll: 1, // 한 번에 넘어가는 개수
+        slidesToScroll: 5, // 한 번에 넘어가는 개수
         arrows: true,
         draggable: true,
     };
     const navigate = useNavigate();
     const [data, setData] = useState<Movie[]>([]);
     const [posts, setPosts] = useState<Post[]>([]);
+    
+    //빌보드 조회일자 설정
+    const today = new Date();
+    today.setDate(today.getDate() - 1);
 
+    const formattedDate =
+        today.getFullYear().toString() +
+        (today.getMonth() + 1).toString().padStart(2, "0") +
+        today.getDate().toString().padStart(2, "0");
 
 
     //상세 페이지 이동 함수
@@ -68,18 +79,18 @@ const Main : FC = () => {
 
     // 영화 정보 API호출
     useEffect(() => {
-        axios.get('http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json' +
-            // `?key=${process.env.REACT_APP_KOBIS_API_KEY}&targetDt=20250201`)
-            `?key=${process.env.REACT_APP_KOBIS_API_KEY}&targetDt=20250101`)
+        axios.get(`http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json` +
+            `?key=${process.env.REACT_APP_KOBIS_API_KEY}&targetDt=`+formattedDate)
             .then(response1 => {
                 const boxOfficeList = response1.data.boxOfficeResult.dailyBoxOfficeList;
                 setData(boxOfficeList);
 
                 return Promise.all(
-                    boxOfficeList.map((item : Movie) =>
+                    boxOfficeList
+                        .map((item : Movie) =>
                         axios.get(`https://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?` +
                                 `collection=kmdb_new2&ServiceKey=${process.env.REACT_APP_KMDB_API_KEY}` +
-                                `&detail=Y&query=${encodeURIComponent(item.movieNm)}&releaseDts=`+item.openDt.replace(/-/g, "")
+                                `&detail=Y&query=${encodeURIComponent(cleanTitle(item.movieNm))}&releaseDts=`+item.openDt.replace(/-/g, "")
                         )
                     )
                 );
@@ -92,15 +103,15 @@ const Main : FC = () => {
     }, []);
 
 
-
-        return (
-            <div>
-                <h1>박스오피스 Top 10 🍿</h1>
+    return (
+        <div>
+            <h1 className={styles["main-title"]}>🍿 박스오피스 Top 10</h1>
+            <div className={styles["main-poster"]}>
                 <Slider {...settings}>
                     {posts
-                        .map((post) =>
-                            post.Data.map((dataItem) =>
-                                dataItem.Result.map((movie) => {
+                        ?.map((post) =>
+                            post.Data?.map((dataItem) =>
+                                dataItem.Result?.map((movie) => {
                                     const matchingPost = dataItem.Result.find((detail) => detail.title === movie.title);
 
                                     return (
@@ -121,9 +132,11 @@ const Main : FC = () => {
                         )
                         .flat(2)}
                 </Slider>
-                <h1>장르별 Top 10 🎥</h1>
             </div>
-        )
+            {/*<h1  className={styles["main-title"]}>🎥 최근 개봉 영화 </h1>*/}
+            <UpcomingMovie />
+        </div>
+    )
 }
 
 export default Main

@@ -1,6 +1,16 @@
+
+.main-title {
+    color : white;
+}
+.main-poster {
+    margin : 50px;
+    padding-left : 30px;
+}
+
 .slider-item {
     position: relative;
 }
+
 .slick-prev, .slick-next {
     background-color: rgba(0, 0, 0, 0.5); /* 배경색을 반투명하게 */
     border-radius: 50%; /* 원형 버튼 */
@@ -24,6 +34,8 @@
 
 .slick-slider {
     position: relative; /* 화살표가 위치할 공간 확보 */
+    margin : 50px;
+    padding-left : 30px;
 }
 
 .slick-slide img {

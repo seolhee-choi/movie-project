@@ -9,15 +9,17 @@ import SoundTrack from './pages/SoundTrack'
 
 const App : FC = () => {
   return (
+  <div className="App">
     <BrowserRouter>
         <Header />
         <Routes>
             <Route path="/" element={<Main />} />
             <Route path="/movieDetail" element={<MovieDetail />} />
             <Route path="/soundTrack" element={<SoundTrack />} />
-          {/*<div className="App"></div>*/}
+
         </Routes>
     </BrowserRouter>
+  </div>
   );
 }
 
