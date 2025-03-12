@@ -1,8 +1,9 @@
 import {FC, useEffect, useState} from 'react';
 import { useLocation } from "react-router-dom";
 import axios from "axios";
-import { cleanTitle } from "../utils/format";
-import styles from '../css/MovieDetail.module.css'
+import { cleanTitle } from "../../utils/format";
+import styles from '../../css/MovieDetail.module.css'
+import DetailMovie from "../DetailMovie";
 interface Detail {
     genre : string;
     plots : {
@@ -19,6 +20,7 @@ const location = useLocation();
 const { id, title, repRlsDate } = location.state || {}; //state에서 id가져오기
 const [detail, setDetail] = useState<Detail | null>(null);
 const [videoSrc, setVideoSrc] = useState<string | null>(null);
+const [showDetailMovie, setShowDetailMovie] = useState(false);
 
     useEffect(() => {
         axios.get(
@@ -28,8 +30,14 @@ const [videoSrc, setVideoSrc] = useState<string | null>(null);
                 `&DOCID=`+id+`&releaseDts=`+repRlsDate.replace(/-/g, "")
             )
             .then(response => {
-                // console.log("🎬 영화 데이터 응답:", response.data);
-                setDetail(response.data.Data[0].Result[0]);
+                const cnt = response.data.TotalCount;
+
+                if (cnt === 0) {
+                //     console.log("🎬 영화 데이터 응답:", response.data.Data[0].Result[0]);
+                    setShowDetailMovie(true);
+                } else {
+                    setDetail(response.data.Data[0].Result[0]);
+                }
             })
             .catch(error => { console.error(error); })
     }, [id, title, repRlsDate]);
@@ -41,31 +49,35 @@ const [videoSrc, setVideoSrc] = useState<string | null>(null);
         }
     }, [detail]);
 
-    //여기에 선언해야 렌더링할 때도 사용 가능
-    //detail?이런식의 문법은 detail이 null일 수도 있어서 옵셔널 체이닝 사용
+    //여기에 선언해야 렌더링할 때도 사용 가능 / detail?이런식의 문법은 detail이 null일 수도 있어서 옵셔널 체이닝 사용
     const firstPoster = detail?.posters?.split('|')[0] || "";
     const videoUrl = videoSrc?.replace("trailerPlayPop?pFileNm=", "play/");
 
     return (
         <div>
-            { detail ? (
+            {showDetailMovie ? (
+                <DetailMovie  id={id} movieTitle={title} openDate={repRlsDate} fallbackData={detail} />
+            ) : (
+                // { detail ? (
                 <div className={styles["detail"]}>
                     {videoSrc?(
-                        <video className={styles["video-preview"]} autoPlay loop muted playsInline>
+                        <video className={styles["video-preview"]} autoPlay loop muted playsInline preload="auto">
                             <source src={videoUrl} type="video/mp4"/>
                         </video>
                     ) : (
                         <img className={styles["img-preview"]} src={firstPoster} alt="포스터"/>
+                        // <DetailMovie  movieTitle={title} openDate={repRlsDate}/>
                     )}
                     <div className={styles["detail-text"]}>
                         <h1> {cleanTitle(title)} </h1>
-                        <p>장르 : {detail.genre}</p>
+                        <p>장르 : {detail?.genre}</p>
                         <p>개봉일 : {repRlsDate}</p>
                         <p>{detail?.plots?.plot?.[0]?.plotText || "줄거리 없음🫢"}</p>
                     </div>
                 </div>
-            ) : (
-             <p>Loading...</p>
+                // )
+                 // <p>Loading...</p>
+                // )}
             )}
 
         </div>

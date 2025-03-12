@@ -1,13 +1,15 @@
-import { FC, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import styles from '../css/Main.module.css'
-import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import {cleanTitle} from "../utils/format";
-import UpcomingMovie from "./UpcomingMovie";
-
+import styles from '../css/Main.module.css'
+import Slider from 'react-slick';
+import { FC, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { cleanTitle } from '../utils/format';
+import axios from 'axios';
+import UpcomingMovie from './old/UpcomingMovie';
+import BestMovie from './BestMovie';
+import OpenBeMovie from "./OpenBeMovie";
+import BoxOfficeMovie from "./BoxOfficeMovie";
 //api 응답 정의
 interface Movie {
     movieCd : string;
@@ -25,7 +27,6 @@ interface DataItem {
     CollName: string;
     TotalCount: number;
     Count: number;
-    // Result: Movie[]; // 여기서 Movie 배열을 포함
     Result: Detail[]; // 여기서 Movie 배열을 포함
 }
 
@@ -43,6 +44,10 @@ interface MainProps {
 }
 
 const Main : FC = () => {
+    const navigate = useNavigate();
+    const [data, setData] = useState<Movie[]>([]);
+    const [posts, setPosts] = useState<Post[]>([]);
+
     const settings = {
         dots: false,
         infinite: true,
@@ -52,10 +57,7 @@ const Main : FC = () => {
         arrows: true,
         draggable: true,
     };
-    const navigate = useNavigate();
-    const [data, setData] = useState<Movie[]>([]);
-    const [posts, setPosts] = useState<Post[]>([]);
-    
+
     //빌보드 조회일자 설정
     const today = new Date();
     today.setDate(today.getDate() - 1);
@@ -83,7 +85,7 @@ const Main : FC = () => {
             `?key=${process.env.REACT_APP_KOBIS_API_KEY}&targetDt=`+formattedDate)
             .then(response1 => {
                 const boxOfficeList = response1.data.boxOfficeResult.dailyBoxOfficeList;
-                setData(boxOfficeList);
+                // setData(boxOfficeList);
 
                 return Promise.all(
                     boxOfficeList
@@ -105,6 +107,7 @@ const Main : FC = () => {
 
     return (
         <div>
+            <BoxOfficeMovie />
             <h1 className={styles["main-title"]}>🍿 박스오피스 Top 10</h1>
             <div className={styles["main-poster"]}>
                 <Slider {...settings}>
@@ -121,7 +124,8 @@ const Main : FC = () => {
                                                     <img
                                                         src={matchingPost.posters.split('|')[0]}
                                                         alt={movie.title}
-                                                        className="slider-image"
+                                                        // className="slider-image"
+                                                        className={`${styles["custom-slider-image"]} slider-image`}
                                                     />
                                                 )}
                                             </a>
@@ -133,8 +137,9 @@ const Main : FC = () => {
                         .flat(2)}
                 </Slider>
             </div>
-            {/*<h1  className={styles["main-title"]}>🎥 최근 개봉 영화 </h1>*/}
-            <UpcomingMovie />
+            {/*<UpcomingMovie />*/}
+            <OpenBeMovie />
+            <BestMovie />
         </div>
     )
 }

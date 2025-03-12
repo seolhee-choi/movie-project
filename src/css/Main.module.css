@@ -1,6 +1,7 @@
 
 .main-title {
     color : white;
+    margin-left : 76px;
 }
 .main-poster {
     margin : 50px;
@@ -41,4 +42,13 @@
 .slick-slide img {
     width: 90%;
     margin: 0 auto;
+}
+
+.slider-item img {
+
+}
+
+.custom-slider-image {
+    width: 267px;
+    height: 400px;
 }

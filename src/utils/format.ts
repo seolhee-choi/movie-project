@@ -5,5 +5,8 @@ export const cleanTitle = (title:string): string => {
         .replace(/\!HE/g, '')
         .replace(/^\s+|\s+$/g, '')
         .replace(/ +/g, ' ')
-        .replace(/[:!?.]/g, "").trim();
+        .replace(/[\[\]:!?.]/g, "").trim(); }
+
+export const replaceDate = (date:string): string => {
+    return date.replace(/-/g, "");
 }

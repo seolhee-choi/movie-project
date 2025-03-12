@@ -1,0 +1,17 @@
+/* Header.css */
+.footer {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: black;
+}
+
+.logo img {
+    width: 60px;
+    height: 40px; /* 로고 크기 조절 */
+}
+
+p {
+    color: white;
+}
