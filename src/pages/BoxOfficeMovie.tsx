@@ -1,43 +1,10 @@
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import { FC, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import styles from "../css/Main.module.css";
-import Slider from "react-slick";
-import {cleanTitle} from "../utils/format";
-import BestMovie from "./BestMovie";
-import OpenBeMovie from "./OpenBeMovie";
+import axios from 'axios';
+import { FC, useState, useEffect } from 'react';
+import { CardDTO } from './types/card';
+import Card from './components/Card';
 
-interface OpenData {
-    id: string,
-    title: string,
-    poster_path: string,
-    release_date: string
-}
 const BoxOfficeMovie : FC = () => {
-    const navigate = useNavigate();
-    const [ data, setData ] = useState<OpenData[]>([]);
-    const settings = {
-        dots: false,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 5, // 한 번에 보이는 개수
-        slidesToScroll: 5, // 한 번에 넘어가는 개수
-        arrows: true,
-        draggable: true,
-    };
-
-    //상세 페이지 이동 함수
-    const moveToDetail = (id:string, title:string, release_date:string) => {
-        navigate("/MovieDetail" , {
-            state: {
-                id : id,
-                title : title,
-                repRlsDate : release_date
-            }
-        });
-    }
+    const [ data, setData ] = useState<CardDTO[]>([]);
 
     useEffect(() => {
         const options = {
@@ -46,10 +13,7 @@ const BoxOfficeMovie : FC = () => {
             // url: 'https://api.themoviedb.org/3/movie/now_playing',
             url: 'https://api.themoviedb.org/3/trending/movie/day',
             // url: 'https://api.themoviedb.org/3/movie/popular',
-            params: {
-                region: 'KR',
-                language: 'ko-KR',
-            },
+            params: {language: 'ko-KR'},
             headers: {
                 accept: 'application/json',
                 Authorization: `Bearer ${process.env.REACT_APP_TMDB_HEADER_KEY}`
@@ -59,40 +23,15 @@ const BoxOfficeMovie : FC = () => {
         axios
             .request(options)
             .then(res => {
-                // console.log(res.data.results);
                 setData(res.data.results);
             })
             .catch(err => console.error(err));
 
     },[])
 
-    const posterUrl = 'https://image.tmdb.org/t/p/original/';
 
     return(
-        <div>
-            <h1 className={styles["main-title"]}>🎥 박스오피스 20</h1>
-            <div className={styles["main-poster"]}>
-                <Slider {...settings}>
-                    {data.map((item) => (
-                        <div key={item.id} className="slider-item">
-                            {/*<p>{cleanTitle(item.title)}</p>*/}
-                            <a href="" onClick={() => moveToDetail(item.id, item.title, item.release_date)}>
-                                {/*<a href="" onClick={() => {}}>*/}
-                                <img
-                                    // src={matchingPost ? matchingPost.posters.split('|')[0] : firstStillImage}
-                                    src={posterUrl + item.poster_path}
-                                    alt={cleanTitle(item.title)}
-                                    // className="slider-image"
-                                    className={`${styles["custom-slider-image"]} slider-image`}
-                                />
-                            </a>
-                        </div>
-                    ))}
-                </Slider>
-            </div>
-            <OpenBeMovie />
-            <BestMovie />
-        </div>
+        <Card movies={data} title="🎥 박스오피스 20" />
     )
 }
 

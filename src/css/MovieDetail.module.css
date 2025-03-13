@@ -3,9 +3,22 @@
     align-items: flex-start;
     gap : 20px;
     color: white;
+    justify-content: center;
+    padding: 3% 3% 3% 3%;
 }
 
-.video-preview, .img-preview {
+.area {
+    position: relative;
+    width: 100%;
+    height: 500px;
+    padding-bottom: 56.25%; /* 16:9 비율 */
+    overflow: hidden; /* 스크롤 제거 */
+    display: flex; /* 자식 요소를 flex로 배치 */
+    justify-content: center; /* 가로 중앙 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+}
+
+.video-preview {
     width: 677px; /* 원하는 크기로 조절 */
     height: auto;
     border-radius: 8px; /* 모서리를 둥글게 */
@@ -14,18 +27,58 @@
     background-color: black;
 }
 
-h3 {
-    margin: 0;
+#youtube {
+    position: absolute;
+    width: 100%; /* 부모에 맞게 꽉 채운다. */
+    height: 100%;
+    object-fit: cover; /* 비율 유지하면서 크기 조정 */
+}
+
+.video {
+    width: 60%; /* 적절한 크기 조정 */
+    height:auto;
+    max-width: 800px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.img-preview {
+    width: 677px; /* 원하는 크기로 조절 */
+    height: 600px;
+    border-radius: 8px; /* 모서리를 둥글게 */
+    /*object-fit: cover;*/
+    object-fit: contain;
+    /*box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3); !* 그림자 효과 *!*/
 }
 
 .detail-text {
+    width: 60%; /* 비디오와 같은 크기 맞추기 */
+    max-width: 800px;
+    padding-left: 3%;
+    padding-right: 3%; /* 오른쪽 여백 추가 */
     display: flex;
-    flex-direction: column; /* 텍스트는 세로로 정렬 */
+    flex-direction: column;
+    gap: 10px; /* 각 항목 사이에 여백 추가 */
     justify-content: flex-start;
-    gap: 10px; /* 텍스트들 간격 설정 */
-    margin-top: 100px;
 }
 
-.detail-text p {
-    margin: 0; /* 각 p 태그에 기본 margin 없애기 */
+h1 {
+    margin-bottom: 10px; /* 제목과 다른 텍스트들 간격 설정 */
 }
+
+.genre {
+    margin: 10px 0; /* 장르 텍스트 여백 추가 */
+    font-size: 1.1em; /* 장르 텍스트 크기 조정 */
+}
+
+.overview {
+    max-height: 300px; /* 텍스트가 길어지면 최대 높이 300px로 제한 */
+    overflow-y: auto; /* 넘칠 경우 스크롤 */
+    white-space: normal; /* 텍스트 자동 줄바꿈 */
+    word-wrap: break-word; /* 긴 단어도 줄바꿈 */
+    padding-right: 10px; /* 오른쪽 패딩 추가하여 스크롤이 겹치지 않게 함 */
+}
+
+
+
+

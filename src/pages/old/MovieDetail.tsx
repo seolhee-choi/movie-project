@@ -1,9 +1,9 @@
 import {FC, useEffect, useState} from 'react';
-import { useLocation } from "react-router-dom";
-import axios from "axios";
-import { cleanTitle } from "../../utils/format";
+import { useLocation } from 'react-router-dom';
+import axios from 'axios';
+import { cleanTitle } from '../../utils/format';
 import styles from '../../css/MovieDetail.module.css'
-import DetailMovie from "../DetailMovie";
+import DetailMovie from './DetailMovie';
 interface Detail {
     genre : string;
     plots : {

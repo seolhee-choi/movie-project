@@ -1,9 +1,9 @@
-import { FC, useState, useEffect } from "react";
-import {useLocation, useNavigate} from "react-router-dom";
-import axios from "axios";
-import styles from "../css/Main.module.css";
-import Slider from "react-slick";
-import {cleanTitle} from "../utils/format";
+import { FC, useState, useEffect } from 'react';
+import {useLocation, useNavigate} from 'react-router-dom';
+import axios from 'axios';
+import styles from '../../css/Main.module.css';
+import Slider from 'react-slick';
+import {cleanTitle} from '../../utils/format';
 
 interface OpenData {
     title : string,

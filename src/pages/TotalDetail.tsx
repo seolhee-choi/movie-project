@@ -1,11 +1,10 @@
-import { FC, useState, useEffect } from "react";
-import {useLocation, useNavigate} from "react-router-dom";
-import axios from "axios";
-import styles from "../css/MovieDetail.module.css";
-import Slider from "react-slick";
-import {cleanTitle, replaceDate} from "../utils/format";
+import axios from 'axios';
+import styles from '../css/MovieDetail.module.css';
+import { FC, useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import { cleanTitle, replaceDate } from '../utils/format';
 
-interface MovieData {
+interface KMDBProps {
     title : string,
     genre : string,
     plots : {
@@ -17,24 +16,30 @@ interface MovieData {
     },
     repRlsDate : string
 }
-interface VideoData {
+interface YoutubeData {
     key: string
 }
 
-interface DetailMovieProps {
+interface TMDBProps {
     id: string,
     title : string,
+    genres : Category[];
     overview: string,
     release_date : string,
     poster_path: string
 }
+
+interface Category {
+    id: number;
+    name: string;
+}
 const TotalDetail : FC = () => {
     const location = useLocation();
-    // const [ kmdbData, setKmdbData ] = useState<MovieData[]>([]);
-    const [ kmdbData, setKmdbData ] = useState<MovieData | null >(null);
-    const [ tmdbData, setTmdbData ] = useState<DetailMovieProps | null>(null);
-    const [ video, setVideo ] = useState<VideoData[]>([]);
-    const { id, title, repRlsDate } = location.state || {}; //state에서 id가져오기
+    const [ kmdbData, setKmdbData ] = useState<KMDBProps | null >(null);
+    const [ tmdbData, setTmdbData ] = useState<TMDBProps | null>(null);
+    const [ youtube, setYoutube ] = useState<YoutubeData[]>([]);
+    const [ loading, setLoading ] = useState(true);
+    const { id, original_title, repRlsDate } = location.state || {}; //메인화면에서 포스터 클릭시 해당값 들고오기
 
     useEffect(() => {
         const fetchMovieDetails = async () => {
@@ -43,12 +48,12 @@ const TotalDetail : FC = () => {
                     params: {
                         ServiceKey: `${process.env.REACT_APP_KMDB_API_KEY}`,
                         detail: 'Y',
-                        query: cleanTitle(title),
-                        // DOCID: id,
+                        query: cleanTitle(original_title),
                         releaseDts: replaceDate(repRlsDate)
                     }
                 })
 
+                // KMDB API 호출시 결과값이 없으면, TMDB API 호출 및 데이터 저장
                 if (kmdbMovieResponse.data.TotalCount === 0) {
                     const tmdbMovieResponse = await axios.get(`https://api.themoviedb.org/3/movie/${id}`, {
                         params: {
@@ -63,77 +68,91 @@ const TotalDetail : FC = () => {
                     setTmdbData(tmdbMovieResponse.data);
 
                     // 두 번째 API 호출
-                    const videoResponse = await axios.get(`https://api.themoviedb.org/3/movie/${id}/videos`, {
+                    const youtubeResponse = await axios.get(`https://api.themoviedb.org/3/movie/${id}/videos`, {
                         params: {
                             api_key: `${process.env.REACT_APP_TMDB_API_KEY}`,
                             language: 'ko-KR',
                         }
                     });
                     // 최종 데이터 저장
-                    setVideo(videoResponse.data.results ? videoResponse.data.results : null);
+                    setYoutube(youtubeResponse.data.results ? youtubeResponse.data.results : null);
+                
                 } else {
                     setKmdbData(kmdbMovieResponse.data.Data[0].Result[0]);
                 }
-
             } catch(error) {
                 console.error(error);
+            } finally {
+                setLoading(false);
             }
         };
         fetchMovieDetails();
     },[])
 
 
-    // const videoUrl = 'https://www.youtube.com/watch?v=';
-    const videoUrl = 'https://www.youtube.com/embed/';
-    const videoOption = '?autoplay=1';
+    const youtubeUrl = 'https://www.youtube.com/embed/';
+    const youtubeOption = '?autoplay=1';
     const posterUrl = 'https://image.tmdb.org/t/p/original/';
     const firstPoster = kmdbData?.posters?.split('|')[0] || "";
     const videoSrc = kmdbData?.vods.vod[0].vodUrl.replace("trailerPlayPop?pFileNm=", "play/");
 
+    if (loading) {
+        return <span className={styles["loader"]}></span>
+    }
+
     return (
         <div>
             <div className={styles["detail"]}>
-                {tmdbData ? (
-                    <>
-                        {video.length > 0  ? (
-                            // video.map((item, index) => (
-                                <iframe
-                                    // key={index}
-                                    width="50%"
-                                    height="auto"
-                                    src={videoUrl + video[0].key + videoOption}
-                                    title="YouTube video player"
-                                    frameBorder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                    allowFullScreen
-                                ></iframe>
-                            // ))
-                        ) : (
-                            <img className={styles["img-preview"]} src={posterUrl + tmdbData?.poster_path} />
-                        )}
-                        <div className={styles["detail-text"]}>
-                            <h1> {cleanTitle(tmdbData.title)} </h1>
-                            <p>개봉일 : {tmdbData.release_date}</p>
-                            <p>{tmdbData.overview}</p>
-                        </div>
-                    </>
-                ) : (
-                    <>
-                        {videoSrc ? (
-                            <video className={styles["video-preview"]} autoPlay loop muted playsInline preload="auto">
-                                <source src={videoSrc} type="video/mp4" />
-                            </video>
-                        ) : (
-                            <img className={styles["img-preview"]} src={firstPoster} alt="포스터" />
-                        )}
-                        <div className={styles["detail-text"]}>
-                            <h1> {cleanTitle(kmdbData?.title || "제목 없음")} </h1>
-                            <p>장르 : {kmdbData?.genre || "장르 정보 없음"}</p>
-                            <p>개봉일 : {repRlsDate}</p>
-                            <p>{kmdbData?.plots?.plot?.[0]?.plotText || "줄거리 없음🫢"}</p>
-                        </div>
-                    </>
-                )}
+                <div className={styles["area"]}>
+                    {tmdbData ? (
+                        <>
+                            {youtube.length > 0  ? (
+                                    <iframe
+                                        id="youtube"
+                                        width="100%"
+                                        height="100%"
+                                        src={youtubeUrl + youtube[0].key + youtubeOption}
+                                        title="YouTube video player"
+                                        frameBorder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowFullScreen
+                                    ></iframe>
+                            ) : (
+                                <img className={styles["img-preview"]} src={posterUrl + tmdbData?.poster_path} />
+                            )}
+                            <div className={styles["detail-text"]}>
+                                <h1> {cleanTitle(tmdbData.title)} </h1>
+                                <p className={styles["genre"]}>
+                                장르 :
+                                    {tmdbData.genres ? (
+                                      tmdbData.genres.map((genre: {name : string}) => genre.name).join(", ")
+                                    ) : (
+                                        "장르 정보 없음"
+                                    )}
+                                </p>
+                                <p>개봉일 : {tmdbData.release_date}</p>
+                                <p className={styles["overview"]}>{tmdbData.overview}</p>
+                            </div>
+                        </>
+                    ) : (
+                        <>
+                            {videoSrc ? (
+                                // <video className={styles["video-preview"]} autoPlay loop muted playsInline preload="auto">
+                                <video className={styles["video"]} autoPlay loop muted playsInline preload="auto">
+                                    <source src={videoSrc} type="video/mp4" />
+                                </video>
+                            ) : (
+                                <img className={styles["img-preview"]} src={firstPoster} alt="포스터" />
+                            )}
+                            <div className={styles["detail-text"]}>
+                                <h1> {cleanTitle(kmdbData?.title || "제목 없음🫢")} </h1>
+                                <p>장르 : {kmdbData?.genre || "장르 정보 없음🫢"}</p>
+                                <p>개봉일 : {repRlsDate}</p>
+                                <p>{kmdbData?.plots?.plot?.[0]?.plotText || "줄거리 없음🫢"}</p>
+                            </div>
+                        </>
+                    )}
+                </div>
             </div>
         </div>
     );

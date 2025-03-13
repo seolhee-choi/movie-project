@@ -1,33 +1,16 @@
-/*.middle-content {*/
-/*    flex: 1; !* 남은 공간을 모두 차지하도록 *!*/
-/*    overflow-y: auto; !* 내용이 넘치면 세로 스크롤 추가 *!*/
-/*    padding: 20px; !* 원하는 패딩 추가 *!*/
-/*    height: calc(100vh - 100px); !* 부모 요소로부터 100% 높이 가져오기 *!*/
-/*    box-sizing: border-box;*/
-/*    margin-bottom: 100px;*/
-/*}*/
-
-.middle-content {
-    flex: 1;
-    overflow-y: auto; /* 내용이 넘치면 세로 스크롤 추가 */
-    padding: 20px;
-    height: calc(100vh - 100px); /* Footer 높이를 제외한 나머지 영역을 채움 */
-}
-
-.middle-content > div {
-    min-height: 100px; /* 각 컴포넌트의 최소 높이 설정, 필요에 따라 조정 */
-}
 
 .main-title {
     color : white;
     margin-left : 76px;
+    margin-bottom : -30px;
 }
+
 .main-poster {
     margin : 50px;
     padding-left : 30px;
 }
 
-.slider-item {
+.custom-slider-item {
     position: relative;
     margin-left: 0 !important;
     margin-right: 0 !important;
