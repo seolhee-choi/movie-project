@@ -13,7 +13,7 @@ const Header : FC = () => {
             <nav className={styles.nav}>
                 <ul className={styles.navList}>
                     <li><a href="/">Movies</a></li>
-                    <li><a href="#submenu2">Music</a></li>
+                    <li><a href="/soundTrack">Music</a></li>
                     <li><a href="#submenu3">Submenu 3</a></li>
                 </ul>
             </nav>

@@ -16,7 +16,7 @@ const BoxOfficeMovie : FC = () => {
             params: {language: 'ko-KR'},
             headers: {
                 accept: 'application/json',
-                Authorization: `Bearer ${process.env.REACT_APP_TMDB_HEADER_KEY}`
+                Authorization: `${process.env.REACT_APP_TMDB_HEADER_KEY}`
             }
         };
 

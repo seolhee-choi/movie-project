@@ -13,7 +13,7 @@ const BestMovie : FC = () => {
             params: {region: 'KR', language: 'ko-KR', page: '1'},
             headers: {
                 accept: 'application/json',
-                Authorization: `Bearer ${process.env.REACT_APP_TMDB_HEADER_KEY}`
+                Authorization: `${process.env.REACT_APP_TMDB_HEADER_KEY}`
             }
         };
 

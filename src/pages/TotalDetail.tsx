@@ -14,7 +14,13 @@ interface KMDBProps {
     vods : {
         vod : {vodUrl : string}[]
     },
-    repRlsDate : string
+    repRlsDate : string,
+    directors : {
+        director : {directorNm : string}[]
+    },
+    actors : {
+        actor : {actorNm : string}[]
+    }
 }
 interface YoutubeData {
     key: string
@@ -23,23 +29,27 @@ interface YoutubeData {
 interface TMDBProps {
     id: string,
     title : string,
-    genres : Category[];
+    genres : Category[],
     overview: string,
     release_date : string,
-    poster_path: string
+    poster_path: string,
 }
-
 interface Category {
     id: number;
     name: string;
 }
+interface CASTProps {
+    name: string
+}
+
 const TotalDetail : FC = () => {
     const location = useLocation();
     const [ kmdbData, setKmdbData ] = useState<KMDBProps | null >(null);
     const [ tmdbData, setTmdbData ] = useState<TMDBProps | null>(null);
     const [ youtube, setYoutube ] = useState<YoutubeData[]>([]);
+    const [ cast , setCast ] = useState<CASTProps[]>([]);
     const [ loading, setLoading ] = useState(true);
-    const { id, original_title, repRlsDate } = location.state || {}; //메인화면에서 포스터 클릭시 해당값 들고오기
+    const { id, title, original_title, repRlsDate, vote_average } = location.state || {}; //메인화면에서 포스터 클릭시 해당값 들고오기
 
     useEffect(() => {
         const fetchMovieDetails = async () => {
@@ -49,6 +59,7 @@ const TotalDetail : FC = () => {
                         ServiceKey: `${process.env.REACT_APP_KMDB_API_KEY}`,
                         detail: 'Y',
                         query: cleanTitle(original_title),
+                        title: cleanTitle(title),
                         releaseDts: replaceDate(repRlsDate)
                     }
                 })
@@ -62,7 +73,7 @@ const TotalDetail : FC = () => {
                         },
                         headers: {
                             accept: 'application/json',
-                            Authorization: `Bearer ${process.env.REACT_APP_TMDB_HEADER_KEY}`
+                            Authorization: `${process.env.REACT_APP_TMDB_HEADER_KEY}`
                         }
                     })
                     setTmdbData(tmdbMovieResponse.data);
@@ -74,9 +85,20 @@ const TotalDetail : FC = () => {
                             language: 'ko-KR',
                         }
                     });
-                    // 최종 데이터 저장
                     setYoutube(youtubeResponse.data.results ? youtubeResponse.data.results : null);
-                
+
+                    // 세 번째 API 호출
+                    const castResponse = await axios.get(`https://api.themoviedb.org/3/movie/${id}/credits`, {
+                        params: { language: 'ko-KR' },
+                        headers: {
+                            accept: 'application/json',
+                            Authorization: `${process.env.REACT_APP_TMDB_HEADER_KEY}`
+                        }
+                    });
+                    console.log(castResponse.data.cast);
+                    setCast(castResponse.data.cast);
+
+
                 } else {
                     setKmdbData(kmdbMovieResponse.data.Data[0].Result[0]);
                 }
@@ -127,11 +149,13 @@ const TotalDetail : FC = () => {
                                     {tmdbData.genres ? (
                                       tmdbData.genres.map((genre: {name : string}) => genre.name).join(", ")
                                     ) : (
-                                        "장르 정보 없음"
+                                        "장르 정보 없음🫢"
                                     )}
                                 </p>
                                 <p>개봉일 : {tmdbData.release_date}</p>
-                                <p className={styles["overview"]}>{tmdbData.overview}</p>
+                                <p>평점 : {vote_average}</p>
+                                <p>출연진 : {cast.map((actor) => actor.name).join(",")}</p>
+                                <p className={styles["overview"]}>{tmdbData.overview || "줄거리 정보 없음🫢"}</p>
                             </div>
                         </>
                     ) : (
@@ -148,6 +172,8 @@ const TotalDetail : FC = () => {
                                 <h1> {cleanTitle(kmdbData?.title || "제목 없음🫢")} </h1>
                                 <p>장르 : {kmdbData?.genre || "장르 정보 없음🫢"}</p>
                                 <p>개봉일 : {repRlsDate}</p>
+                                <p>평점 : {vote_average}</p>
+                                <p>출연진 : {kmdbData?.actors?.actor?.map(actor => actor.actorNm).join(', ')}</p>
                                 <p>{kmdbData?.plots?.plot?.[0]?.plotText || "줄거리 없음🫢"}</p>
                             </div>
                         </>

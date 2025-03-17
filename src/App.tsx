@@ -6,6 +6,7 @@ import Footer from './components/footer/Footer';
 import Main from './pages/Main'
 import SoundTrack from './pages/SoundTrack'
 import TotalDetail from './pages/TotalDetail';
+import ScrollToTop from './pages/components/ScrollToTop';
 
 
 const App : FC = () => {
@@ -19,6 +20,7 @@ const App : FC = () => {
                 <Route path="/soundTrack" element={<SoundTrack />} />
             </Routes>
         </BrowserRouter>
+      <ScrollToTop />
     <Footer />
   </div>
   );

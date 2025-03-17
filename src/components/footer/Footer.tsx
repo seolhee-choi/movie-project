@@ -19,7 +19,9 @@ const Footer : FC = () => {
                 <p>E-mail: csheeee38@gmail.com </p>
             </div>
         </footer>
+
     )
+
 }
 
 export default Footer

@@ -36,7 +36,7 @@ const DetailMovie = ({id, movieTitle, openDate, fallbackData} : DetailMovieProps
                     },
                     headers: {
                         accept: 'application/json',
-                        Authorization: `Bearer ${process.env.REACT_APP_TMDB_HEADER_KEY}`
+                        Authorization: `${process.env.REACT_APP_TMDB_HEADER_KEY}`
                     }
                 })
                 setData(movieResponse.data);

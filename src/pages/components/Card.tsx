@@ -26,12 +26,14 @@ const Card = ({movies, title} : Props) => {
     };
     
     //상세 페이지 이동 함수
-    const moveToDetail = (id:string, original_title:string, release_date:string) => {
+    const moveToDetail = (id:string, title:string, original_title:string, release_date:string, vote_average:number) => {
         navigate("/MovieDetail" , {
             state: {
                 id : id,
+                title : title,
                 original_title : original_title,
-                repRlsDate : release_date
+                repRlsDate : release_date,
+                vote_average : vote_average
             }
         });
     }
@@ -45,7 +47,10 @@ const Card = ({movies, title} : Props) => {
                 <Slider {...settings}>
                     {movies.map((item) => (
                         <div key={item.id} className={`${styles["custom-slider-item"]} slider-item`}>
-                            <a href="" onClick={() => moveToDetail(item.id, item.original_title, item.release_date)}>
+                            <a href="" onClick={() =>
+                                moveToDetail(item.id, item.title, item.original_title, item.release_date, item.vote_average
+                                )}
+                            >
                                 <img
                                     src={posterUrl + item.poster_path}
                                     alt={cleanTitle(item.title)}
