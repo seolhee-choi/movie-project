@@ -1,23 +1,21 @@
+/* 🔹 footer.module.css */
 .footer {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    padding: 1rem 2rem;
-    background-color: black;
-    position: fixed; /* Footer를 화면 하단에 고정 */
-    bottom: 0; /* 화면 하단에 고정 */
-    width: 100%; /* 화면 너비에 맞게 */
+    background-color: #343a40;
     color: white;
-    height: 100px; /* 고정된 높이 */
-    z-index: 10; /* 다른 요소들보다 위로 배치 */
+    text-align: center;
+    padding: 20px;
+    margin-top: 50px;
 }
 
-
-.logo img {
-    width: 60px;
-    height: 40px; /* 로고 크기 조절 */
+.footer .logo img {
+    height: 40px;
 }
 
-p {
-    color: white;
+.box_in {
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.box_in p {
+    margin: 5px 0;
 }

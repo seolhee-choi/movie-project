@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { FC, useState, useEffect } from 'react';
-import { CardDTO } from './types/card';
-import Card from './components/Card';
+import { CardDTO } from '../types/card';
+import Card from '../components/Card';
 
 const OpenBeMovie : FC = () => {
     const [ data, setData ] = useState<CardDTO[]>([]);
@@ -21,7 +21,12 @@ const OpenBeMovie : FC = () => {
         axios
             .request(options)
             .then(res => {
-                setData(res.data.results);
+                const result = res.data.results;
+                const filteredResult = result.filter((item: any) => item.poster_path);
+
+                if(filteredResult.length > 0) {
+                    setData(filteredResult);
+                }
             })
             .catch(err => console.error(err));
 
@@ -29,7 +34,7 @@ const OpenBeMovie : FC = () => {
 
 
     return(
-        <Card movies={data} title="👀 개봉예정작" />
+        <Card movies={data} title='👀 개봉예정작' />
     )
 }
 

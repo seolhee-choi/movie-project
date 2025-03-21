@@ -1,61 +1,62 @@
-
-.main-title {
-    color : white;
-    margin-left : 76px;
-    margin-bottom : -30px;
-}
-
-.main-poster {
-    margin : 50px;
-    padding-left : 30px;
-}
-
-.custom-slider-item {
-    position: relative;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    padding: 0 !important;
-    display: flex;
-    justify-content: center; /* 이미지가 잘 중앙에 오도록 설정 */
-}
-
+/* 🔹 card.module.css */
 .slick-prev, .slick-next {
-    background-color: rgba(0, 0, 0, 0.5); /* 배경색을 반투명하게 */
-    border-radius: 50%; /* 원형 버튼 */
-    padding: 10px; /* 버튼 크기 */
-    z-index: 10; /* 슬라이드 위에 표시되도록 */
-    display: block;
+    color: #000 !important; /* 버튼 색상을 검은색으로 변경 */
+    font-size: 30px !important; /* 버튼 크기 조정 */
+    background: rgba(255, 255, 255, 0.5) !important; /* 배경색을 반투명 흰색으로 설정 */
+    border-radius: 50% !important; /* 버튼을 원형으로 만들기 */
 }
 
-.slick-prev {
-    left: 10px; /* 왼쪽 화살표 위치 */
+.slick-prev:hover, .slick-next:hover {
+    color: #fff !important; /* 버튼 hover 시 색상 변경 */
+    background: rgba(0, 0, 0, 0.7) !important; /* hover 시 배경색 변경 */
 }
 
-.slick-next {
-    right: 10px; /* 오른쪽 화살표 위치 */
-}
-
-.slick-prev:before, .slick-next:before {
-    color: red; /* 화살표 색상 */
-    font-size: 20px; /* 화살표 크기 */
+.slick-slide {
+    margin: 0 10px !important; /* 슬라이드 항목 간의 좌우 간격을 10px로 설정 */
 }
 
 .slick-slider {
-    position: relative; /* 화살표가 위치할 공간 확보 */
-    margin : 50px;
-    padding-left : 30px;
+    width: 90% !important; /* 슬라이더의 전체 너비를 90%로 설정 */
+    margin: 0 auto !important; /* 슬라이더를 가운데 정렬 */
 }
 
-.slick-slide img {
-    width: 90%;
-    margin: 0 auto;
+.slick-track {
+    display: flex !important; /* 슬라이드 항목들을 가로로 배치 */
 }
 
-.slider-item img {
+.slick-list {
+    margin: 0 -10px; /* 슬라이더의 양 옆 간격을 조금 줄이기 */
+}
 
+
+.main-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.main-poster {
+    width: 100%;
+}
+
+.custom-slider-item {
+    text-align: center;
 }
 
 .custom-slider-image {
-    width: 267px;
-    height: 400px;
+    width: 100%;
+    max-width: 200px;
+    border-radius: 10px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.custom-slider-image:hover {
+    transform: scale(1.05);
+}
+
+.custom-slider-item img {
+    width: 100% !important; /* 이미지가 슬라이더의 너비에 맞게 늘어나도록 설정 */
+    height: 350px !important; /* 이미지 높이도 필요에 따라 설정 */
+    object-fit: cover !important; /* 이미지를 비율에 맞게 자르거나 확장 */
 }

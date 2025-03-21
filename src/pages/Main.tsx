@@ -1,13 +1,13 @@
 import styles from '../css/Main.module.css';
 import { FC } from 'react';
-import BestMovie from './BestMovie';
-import OpenBeMovie from './OpenBeMovie';
-import BoxOfficeMovie from './BoxOfficeMovie';
+import BestMovie from './movie/BestMovie';
+import OpenBeMovie from './movie/OpenBeMovie';
+import BoxOfficeMovie from './movie/BoxOfficeMovie';
 
 
 const Main : FC = () => {
     return (
-        <div className={styles["middle-content"]}>
+        <div className={styles['middle-content']}>
             <BoxOfficeMovie />
             <OpenBeMovie />
             <BestMovie />

@@ -4,16 +4,16 @@ const app = express()
 const path = require('path')
 const port = 8080
 
-//여기서부터 추가
 const cors = require('cors')
-// const bodyParser = require('body-parser')
 const SpotifyWebApi = require('spotify-web-api-node')
+// const bodyParser = require('body-parser')-> express.json과 중복
 
 
 app.use(express.json());
 app.use(cors());
-// app.use(bodyParser.json())
-/*여기부터*/
+// app.use(bodyParser.json()) -> express.json과 중복
+
+
 
 app.post('/refresh', (req,res) => {
     const refreshToken = req.body.refreshToken;
@@ -27,7 +27,6 @@ app.post('/refresh', (req,res) => {
     spotifyApi
         .refreshAccessToken()
         .then((data) => {
-            console.log(data);
             res.json({
                 accessToken: data.body.access_token,
                 expiresIn: data.body.expires_in,
@@ -40,16 +39,17 @@ app.post('/refresh', (req,res) => {
 })
 
 app.post('/login', (req,res) => {
-    console.log("Received body:", req.body); // 🔥 콘솔에 body 값 출력
+    // console.log('Received body:', req.body); // 🔥 콘솔에 body 값 출력
     const code = req.body.code;
-    console.log("Received code:", code); // 🔥 콘솔에 code 값 출력
+    // console.log('Received code:', code); // 🔥 콘솔에 code 값 출력
 
     if (!code) {
-        return res.status(400).json({ error: "Authorization code is missing" });
+        return res.status(400).json({ error: 'Authorization code is missing' });
     }
 
     const spotifyApi = new SpotifyWebApi({
-        redirectUri : 'http://localhost:3000',
+        // redirectUri : 'http://localhost:3000',
+        redirectUri : 'http://localhost:3000/spotifyMusic',
         clientId : process.env.SPOTIFY_CLIENT_ID,
         clientSecret : process.env.SPOTIFY_CLIENT_SECRET
     })
@@ -64,15 +64,13 @@ app.post('/login', (req,res) => {
             });
         })
         .catch((err) => {
-            console.log("SPOTIFY API ERROR: ",err);
+            // console.log('SPOTIFY API ERROR: ',err);
             res.sendStatus(400);
         })
     
 })
 
-
-/*여기까지*/
-
+//React의 build된 내용을 사용하겠다는 의미
 app.use(express.static(path.join(__dirname, '../build')));
 app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname, '../build/index.html'))
@@ -85,7 +83,4 @@ app.get('*', function(req, res) {
     res.sendFile(path.join(__dirname, '../build/index.html'))
 })
 
-// app.listen(port, function() {
-//     console.log(`listening on ${port}`)
-// })
 app.listen(port);

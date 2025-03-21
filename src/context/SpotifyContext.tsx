@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState, ReactNode } from "react";
+import  { createContext, useEffect, useState, ReactNode } from 'react';
 
 interface SpotifyContextType {
     accessToken : string | null
@@ -12,11 +12,11 @@ const SpotifyProvider = ({ children } : {children: ReactNode}) => {
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.hash.substring(1));
-        const token = params.get("access_token");
+        const token = params.get('access_token');
 
         if (token) {
             setAccessToken(token);
-            // window.history.pushState({},null, "/");
+            // window.history.pushState({},null, '/');
         } else {
             fetchToken();
         }
@@ -24,11 +24,11 @@ const SpotifyProvider = ({ children } : {children: ReactNode}) => {
 
     const fetchToken = async () => {
         try {
-            const response = await fetch("http://localhost:8080/login");
+            const response = await fetch('http://localhost:8080/login');
             const data = await response.json();
             setAccessToken(data.access_token);
         } catch (error) {
-            console.log("Error fetching token: ", error);
+            console.log('Error fetching token: ', error);
         }
     }
 
@@ -37,13 +37,13 @@ const SpotifyProvider = ({ children } : {children: ReactNode}) => {
 
         const fetchTracks = async () => {
             try {
-                const response = await fetch("https://api.spotify.com/v1/me/top/tracks", {
+                const response = await fetch('https://api.spotify.com/v1/me/top/tracks', {
                     headers: { Authorization: `Bearer ${accessToken}`}
                 });
                 const data = await response.json();
                 setTracks(data.items || []);
             } catch (error) {
-                console.error("Error fetching tracks: ",error);
+                console.error('Error fetching tracks: ',error);
             }
         };
 

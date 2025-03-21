@@ -1,35 +1,35 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {FC, useState} from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import  {FC} from 'react';
+import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import Header from './components/header/Header'
 import Footer from './components/footer/Footer';
 import Main from './pages/Main'
-import SpotifyContext from './context/SpotifyContext'
-import TotalDetail from './pages/TotalDetail';
+import TotalDetail from './pages/movie/TotalDetail';
 import ScrollToTop from './pages/components/ScrollToTop';
-import Login from './pages/Login';
-import Dashboard from './pages/Dashboard';
+import Music from './pages/Music';
+import Login from './pages/music/Login';
 
-const code = new URLSearchParams(window.location.search).get('code');
+// const code = new URLSearchParams(window.location.search).get('code');
+const savedCode = sessionStorage.getItem('spotifyCode');
 const App : FC = () => {
 
     return (
-        // <SpotifyContext>
-        <div className="App">
-            {code ? <Dashboard code={code} /> : <Login />}
+        <div className='App'>
             <Header />
             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<Main />} />
-                    <Route path="/movieDetail" element={<TotalDetail />} />
-                    {/*<Route path="/spotifyPlayer" element={<SpotifyPlayer />} />*/}
+                    <Route path='/' element={<Main />} />
+                    <Route path='/movieDetail' element={<TotalDetail />} />
+                    <Route
+                        path='/spotifyMusic'
+                        element={savedCode ? <Music code={savedCode} /> :  <Login />}
+                    />
                 </Routes>
             </BrowserRouter>
             <ScrollToTop />
             <Footer />
         </div>
-        // </SpotifyContext>
     );
 }
 

@@ -1,86 +1,100 @@
+/* 🔹 detail.module.css */
+.detail-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
 .detail {
     display: flex;
-    align-items: flex-start;
-    gap : 20px;
-    color: white;
     justify-content: center;
-    padding: 3% 3% 3% 3%;
+    align-items: center;
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: auto;
+    flex: 1;
 }
 
 .area {
-    position: relative;
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    align-items: flex-start;
     width: 100%;
-    height: 500px;
-    padding-bottom: 56.25%; /* 16:9 비율 */
-    overflow: hidden; /* 스크롤 제거 */
-    display: flex; /* 자식 요소를 flex로 배치 */
-    justify-content: center; /* 가로 중앙 정렬 */
-    align-items: center; /* 세로 중앙 정렬 */
 }
 
-.video-preview {
-    width: 677px; /* 원하는 크기로 조절 */
-    height: auto;
-    border-radius: 8px; /* 모서리를 둥글게 */
-    object-fit: cover;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3); /* 그림자 효과 */
-    background-color: black;
-}
-
-#youtube {
-    position: absolute;
-    width: 100%; /* 부모에 맞게 꽉 채운다. */
-    height: 100%;
-    object-fit: cover; /* 비율 유지하면서 크기 조정 */
+.img-preview, .video, iframe {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 .video {
-    width: 60%; /* 적절한 크기 조정 */
-    height:auto;
-    max-width: 800px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-}
-
-.img-preview {
-    width: 677px; /* 원하는 크기로 조절 */
-    height: 600px;
-    border-radius: 8px; /* 모서리를 둥글게 */
-    /*object-fit: cover;*/
-    object-fit: contain;
-    /*box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3); !* 그림자 효과 *!*/
+    height: auto;
 }
 
 .detail-text {
-    width: 60%; /* 비디오와 같은 크기 맞추기 */
-    max-width: 800px;
-    padding-left: 3%;
-    padding-right: 3%; /* 오른쪽 여백 추가 */
-    display: flex;
-    flex-direction: column;
-    gap: 10px; /* 각 항목 사이에 여백 추가 */
-    justify-content: flex-start;
-    max-height: 500px; /* 최대 높이를 설정 */
-    overflow-y: auto; /* 세로 스크롤이 생기도록 설정 */
+    flex: 1; /* 정보 영역이 공간을 다 차지 */
+    width: 100%;
 }
 
-h1 {
-    margin-bottom: 10px; /* 제목과 다른 텍스트들 간격 설정 */
+.detail-text h1 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.detail-text p {
+    font-size: 16px;
+    color: #555;
 }
 
 .genre {
-    margin: 10px 0; /* 장르 텍스트 여백 추가 */
-    font-size: 1.1em; /* 장르 텍스트 크기 조정 */
+    font-weight: bold;
+    color: #333;
 }
 
 .overview {
-    max-height: 300px; /* 텍스트가 길어지면 최대 높이 300px로 제한 */
-    /*overflow-y: auto; !* 넘칠 경우 스크롤 *!*/
-    white-space: normal; /* 텍스트 자동 줄바꿈 */
-    word-wrap: break-word; /* 긴 단어도 줄바꿈 */
-    padding-right: 10px; /* 오른쪽 패딩 추가하여 스크롤이 겹치지 않게 함 */
+    font-size: 14px;
+    line-height: 1.6;
+    color: #666;
+}
+
+/* 🔹 반응형 (모바일) */
+@media (max-width: 768px) {
+    .area {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .img-preview, .video, iframe {
+        max-width: 100%;
+    }
 }
 
 
+/* 공통 스타일 */
+.detail-content {
+    display: flex;
+    flex-direction: row; /* 가로로 배치 */
+    justify-content: space-between; /* 두 영역 사이에 여백 */
+    align-items: flex-start; /* 상단 정렬 */
+    gap: 20px; /* 두 영역 사이의 간격 */
+}
 
+.video-container {
+    flex: 1; /* 영상 영역이 공간을 다 차지 */
+    max-width: 800px;
+    aspect-ratio: 16 / 9;
+    margin-right: 20px; /* 영상과 정보 사이의 간격 */
+}
 
+/* iframe과 video에 동일한 스타일 적용 */
+.video-container iframe,
+.video-container video {
+    width: 100%;
+    height: 100%;
+    border-radius: 12px; /* 살짝 둥근 모서리 */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* 그림자 추가 */
+}
