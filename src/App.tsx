@@ -9,6 +9,8 @@ import TotalDetail from './pages/movie/TotalDetail';
 import ScrollToTop from './pages/components/ScrollToTop';
 import Music from './pages/Music';
 import Login from './pages/music/Login';
+import Youtube from './pages/youtube/Youtube';
+
 
 // const code = new URLSearchParams(window.location.search).get('code');
 const savedCode = sessionStorage.getItem('spotifyCode');
@@ -24,6 +26,10 @@ const App : FC = () => {
                     <Route
                         path='/spotifyMusic'
                         element={savedCode ? <Music code={savedCode} /> :  <Login />}
+                    />
+                    <Route
+                        path='/youtube'
+                        element={<Youtube />}
                     />
                 </Routes>
             </BrowserRouter>

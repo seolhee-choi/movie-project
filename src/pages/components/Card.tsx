@@ -27,7 +27,8 @@ const Card = ({movies, title} : Props) => {
                 style={{
                     ...style,
                     display: "block",
-                    background: "black",
+                    background: "silver",
+                    border: "1px solid white",
                     borderRadius: "50%",
                     left: "-40px",
                     zIndex: 10
@@ -45,7 +46,8 @@ const Card = ({movies, title} : Props) => {
                 style={{
                     ...style,
                     display: "block",
-                    background: "black",
+                    background: "silver",
+                    border: "1px solid white",
                     borderRadius: "50%",
                     right: "-40px",
                     zIndex: 10

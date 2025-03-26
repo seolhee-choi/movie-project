@@ -1,0 +1,105 @@
+/* styles.css */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.search-container {
+    display: flex;
+    align-items: center; /* input과 버튼을 수직 가운데 정렬 */
+    gap: 10px; /* input과 버튼 사이 간격 */
+    width: 100%;
+    max-width: 500px; /* 최대 너비 설정 */
+}
+
+.search-input {
+    flex: 1; /* 가능한 최대 너비 차지 */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.search-button {
+    background-color: blue;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    white-space: nowrap; /* 버튼 텍스트가 줄 바뀌지 않도록 */
+}
+
+.results-container {
+    width: 100%;
+    max-width: 600px;
+    padding-top: 30px;
+}
+
+.result-item {
+    display: flex;
+    align-items: center;
+    background: white;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.result-thumbnail {
+    width: 120px;
+    height: 80px;
+    border-radius: 5px;
+    object-fit: cover;
+    margin-right: 15px;
+}
+
+.result-info h3 {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.result-info p {
+    font-size: 14px;
+    color: #666;
+}
+
+/* 여기서부터는 모달관련 css */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    position: relative;
+    width: 600px;
+    max-width: 90%;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: red;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
+    cursor: pointer;
+}
