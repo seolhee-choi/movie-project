@@ -30,7 +30,8 @@ const Youtube: FC = () => {
             .then(res => {
                 console.log('결과값은? ',res.data.items);
                 // setResult(res.data.items[0].id.videoId);
-                setResult(res.data.items);
+                // setResult(res.data.items);
+                setResult(res.data);
             })
             .catch((err) => {
                 console.error(err);
@@ -58,7 +59,6 @@ const Youtube: FC = () => {
             </div>
             <div className={styles['results-container']}>
                 {result.map((video:any) => (
-                    // console.log('published at: ',video.snippet.publishedAt);
                     <div key={video.id.videoId} className={styles['result-item']} onClick={() => openModal(video)}>
                         <img
                             src={video.snippet.thumbnails.medium.url}

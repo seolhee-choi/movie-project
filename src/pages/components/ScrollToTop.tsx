@@ -1,40 +1,38 @@
-import {useEffect, useRef} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import styles from './ScrollToTop.module.css'
+import scrollTop from '../../top-circle-svgrepo-com.svg'
 const ScrollToTop = () => {
-    // const topRef = useRef<HTMLDivElement>(null);
-    //
-    // useEffect(() => {
-    //     if (topRef.current) {
-    //         topRef.current.scrollIntoView({ behavior: 'smooth' });
-    //     }
-    // }, [])
-    //
-    // return(
-    //     <div>
-    //         <div
-    //             ref={topRef}
-    //             className={styles['scroll-top']}
-    //         >
-    //         </div>
-    //         <button onClick={() => topRef.current?.scrollIntoView({ behavior: 'smooth'})}>
-    //             상단으로 스크롤
-    //         </button>
-    //     </div>
-    // )
+   const [showButton, setShowButton] = useState(false);
 
-    const scrollToTop = () => {
-        // window.scrollTo({top:0, behavior: 'smooth'});
-        document.documentElement.scrollTo({ top: 0, behavior: 'smooth' });
+   const topButton = () => {
+       window.scroll({
+           top: 0,
+           behavior: 'smooth'
+       })
+   }
 
-        console.log('스크롤 실행됨');
-    };
+   useEffect(() => {
+       const handleShowButton = () => {
+           if (window.scrollY > 500) {
+               setShowButton(true)
+           } else {
+               setShowButton(false)
+           }
+       }
+
+       console.log(window.scrollY);
+       window.addEventListener("scroll", handleShowButton)
+       return () => {
+           window.removeEventListener("scroll", handleShowButton)
+       }
+   }, [])
 
     return (
-        <div className={styles['scroll-container']}>
-            <button className={styles['scroll-button']} onClick={scrollToTop}>
-                TOP
+        <div className={styles['scroll__container']}>
+            {/*<button id='top' onClick={topButon} type='button'>*/}
+            <button id='top' onClick={topButton} type='button'>
+                <img src={scrollTop} alt='scrollToTop'/>
             </button>
-
         </div>
     );
 };

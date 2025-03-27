@@ -14,22 +14,41 @@ app.use(cors());
 
 app.get('/api/youtube', async (req, res) => {
     try {
-        console.log(req.query)
         const query = req.query.q || 'movie soundtrack'; // 검색어 (영화 OST 제목)
         const params = {
             part: 'snippet',
-            maxResult: 10,
+            maxResult: 20,
             q: query,
             type: 'video',
-            key: process.env.YOUTUBE_API_KEY
+            key: process.env.YOUTUBE_API_KEY,
+            order: 'date'
+        }
+        
+        const getUrl = (params) => {
+            const queryString = new URLSearchParams(params).toString();
+            return `https://www.googleapis.com/youtube/v3/search?${queryString}`;
         }
 
-        const queryString = new URLSearchParams(params).toString();
-        const url = `https://www.googleapis.com/youtube/v3/search?${queryString}`;
+        let results = [];
+        let url = getUrl(params);
 
+        /* 첫 번째 fetch 요청 */
         const response = await fetch(url);
         const data = await response.json();
-        res.json(data);
+        results = data.items;
+
+
+        /* 두 번째 fetch 요청 */
+        if (data.nextPageToken) {
+            const nextParams = { ...params, pageToken: data.nextPageToken};
+            const nextUrl = getUrl(nextParams);
+            const nextResponse = await fetch(nextUrl);
+            const nextData = await nextResponse.json();
+
+            results = [...results, ...nextData.items];
+        }
+        
+        res.json(results);// 클라이언트로 결과 전달
     } catch (error) {
         console.error(error);
         res.status(500).send('Error fetching data from YouTube API');

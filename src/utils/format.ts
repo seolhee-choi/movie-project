@@ -13,6 +13,7 @@ export const cleanTitle = (title:string): string => {
         .replace(/&quot;/g, '')
         .replace(/&nbsp;/g, ' ')
         .replace(/&amp;/g, '&')
+        .replace(/&#39;/g, "'")
         .trim();
 }
 
