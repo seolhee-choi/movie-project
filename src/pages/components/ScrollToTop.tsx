@@ -1,6 +1,7 @@
 import {useEffect, useRef, useState} from 'react';
 import styles from './ScrollToTop.module.css'
-import scrollTop from '../../top-circle-svgrepo-com.svg'
+// import scrollTop from '../../top-circle-svgrepo-com.svg'
+import scrollTop from '../../scroll-up.png'
 const ScrollToTop = () => {
    const [showButton, setShowButton] = useState(false);
 
@@ -20,7 +21,6 @@ const ScrollToTop = () => {
            }
        }
 
-       console.log(window.scrollY);
        window.addEventListener("scroll", handleShowButton)
        return () => {
            window.removeEventListener("scroll", handleShowButton)
@@ -29,10 +29,11 @@ const ScrollToTop = () => {
 
     return (
         <div className={styles['scroll__container']}>
-            {/*<button id='top' onClick={topButon} type='button'>*/}
-            <button id='top' onClick={topButton} type='button'>
+            {/*<button id='top' onClick={topButton} type='button'>*/}
+            <div className={styles['top']} onClick={topButton}>
                 <img src={scrollTop} alt='scrollToTop'/>
-            </button>
+            </div>
+            {/*</button>*/}
         </div>
     );
 };

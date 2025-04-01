@@ -17,7 +17,7 @@ app.get('/api/youtube', async (req, res) => {
         const query = req.query.q || 'movie soundtrack'; // 검색어 (영화 OST 제목)
         const params = {
             part: 'snippet',
-            maxResult: 20,
+            maxResults: 20,
             q: query,
             type: 'video',
             key: process.env.YOUTUBE_API_KEY,

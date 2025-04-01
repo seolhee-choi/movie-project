@@ -28,9 +28,6 @@ const Youtube: FC = () => {
                 params: {q : search +' ost' }
             })
             .then(res => {
-                console.log('결과값은? ',res.data.items);
-                // setResult(res.data.items[0].id.videoId);
-                // setResult(res.data.items);
                 setResult(res.data);
             })
             .catch((err) => {

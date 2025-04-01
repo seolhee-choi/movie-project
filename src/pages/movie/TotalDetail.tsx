@@ -96,7 +96,8 @@ const TotalDetail : FC = () => {
                         }
                     });
                     console.log(castResponse.data.cast);
-                    setCast(castResponse.data.cast);
+                    // setCast(castResponse.data.cast);
+                    setCast(castResponse.data.cast.slice(0, 10));
 
 
                 } else {
@@ -154,7 +155,7 @@ const TotalDetail : FC = () => {
                                         )}
                                     </p>
                                     <p>개봉일 : {tmdbData.release_date}</p>
-                                    <p>평점 : {vote_average}</p>
+                                    <p>평점 : {vote_average.toFixed(1)}</p>
                                     <p>출연진 : {cast.map((actor) => actor.name).join(',')}</p>
                                     <p className={styles['overview']}>{tmdbData.overview || '줄거리 정보 없음🫢'}</p>
                                 </div>
@@ -175,8 +176,11 @@ const TotalDetail : FC = () => {
                                     <h1> {cleanTitle(kmdbData?.title || '제목 없음🫢')} </h1>
                                     <p>장르 : {kmdbData?.genre || '장르 정보 없음🫢'}</p>
                                     <p>개봉일 : {repRlsDate}</p>
-                                    <p>평점 : {vote_average}</p>
-                                    <p>출연진 : {kmdbData?.actors?.actor?.map(actor => actor.actorNm).join(', ')}</p>
+                                    <p>평점 : {vote_average.toFixed(1)}</p>
+                                    <p>출연진 : {
+                                         kmdbData?.actors?.actor?.slice(0,10).map(actor => actor.actorNm).join(', ')
+                                    }
+                                    </p>
                                     <p>{kmdbData?.plots?.plot?.[0]?.plotText || '줄거리 없음🫢'}</p>
                                 </div>
                             </>

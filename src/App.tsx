@@ -1,6 +1,6 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import  {FC} from 'react';
+import  {FC,useState} from 'react';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import Header from './components/header/Header'
 import Footer from './components/footer/Footer';
@@ -15,22 +15,17 @@ import Youtube from './pages/youtube/Youtube';
 // const code = new URLSearchParams(window.location.search).get('code');
 const savedCode = sessionStorage.getItem('spotifyCode');
 const App : FC = () => {
+    const [searchQuery, setSearchQuery] = useState('');
 
     return (
         <div className='App'>
-            <Header />
+            <Header setSearchQuery={setSearchQuery}/>
             <BrowserRouter>
                 <Routes>
-                    <Route path='/' element={<Main />} />
+                    <Route path='/' element={<Main searchQuery={searchQuery}/> } />
                     <Route path='/movieDetail' element={<TotalDetail />} />
-                    <Route
-                        path='/spotifyMusic'
-                        element={savedCode ? <Music code={savedCode} /> :  <Login />}
-                    />
-                    <Route
-                        path='/youtube'
-                        element={<Youtube />}
-                    />
+                    <Route path='/spotifyMusic' element={savedCode ? <Music code={savedCode} /> :  <Login />} />
+                    <Route path='/youtube' element={<Youtube />} />
                 </Routes>
             </BrowserRouter>
             <ScrollToTop />

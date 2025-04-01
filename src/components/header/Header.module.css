@@ -3,7 +3,6 @@
     background-color: #343a40; /* 다크 네이비 */
     color: white;
     display: flex;
-    justify-content: space-between;
     align-items: center;
     padding: 15px 20px;
     position: sticky;
@@ -12,12 +11,15 @@
     z-index: 1000;
 }
 
-.logo img {
-    height: 50px;
+.logo {
+    font-size: 24px; /* 로고 크기 조정 */
+    font-weight: bold;
 }
 
 .nav {
     display: flex;
+    align-items: center; /* 수직 정렬 */
+    margin-left: 40px; /* 로고와 메뉴 사이 간격 */
 }
 
 .navList {

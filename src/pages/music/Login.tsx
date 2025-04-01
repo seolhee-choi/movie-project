@@ -10,7 +10,7 @@ const AUTH_URL = 'https://accounts.spotify.com/authorize?' +
 const Login = () => {
     const navigate = useNavigate();
     const [ code, setCode ] = useState('');
-    console.log('code 값 확인:', code); // 🚀 code 값이 제대로 들어오는지 확인
+    // console.log('code 값 확인:', code); // 🚀 code 값이 제대로 들어오는지 확인
 
 
     useEffect(() => {

@@ -13,7 +13,7 @@ const BoxOfficeMovie : FC = () => {
             // url: 'https://api.themoviedb.org/3/movie/now_playing',
             url: 'https://api.themoviedb.org/3/trending/movie/day',
             // url: 'https://api.themoviedb.org/3/movie/popular',
-            params: {language: 'ko-KR'},
+            params: {region: 'KR', language: 'ko-KR'},
             headers: {
                 accept: 'application/json',
                 Authorization: `${process.env.REACT_APP_TMDB_HEADER_KEY}`

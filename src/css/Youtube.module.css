@@ -82,7 +82,7 @@
 }
 
 .modal-content {
-    background: white;
+    background: transparent;
     padding: 20px;
     border-radius: 10px;
     position: relative;
